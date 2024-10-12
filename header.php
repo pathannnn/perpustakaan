@@ -57,8 +57,6 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="data_buku.php">Buku</a></li>
-                <li><a class="dropdown-item" href="data_penulis.php">Penulis</a></li>
-                <li><a class="dropdown-item" href="data_penerbit.php">Penerbit</a></li>
                 <li><a class="dropdown-item" href="data_kategori.php">Kategori</a></li>
                 <li><a class="dropdown-item" href="data_siswa.php">Siswa</a></li>
               </ul>

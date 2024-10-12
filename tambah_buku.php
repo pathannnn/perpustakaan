@@ -9,12 +9,26 @@ if(isset($_POST['submit'])){
     $kategori = $_POST['kategori'];
     $tahun_terbit = $_POST['tahun_terbit'];
 
-    $query = mysqli_query($koneksi, "INSERT INTO buku (isbn, judul, penulis, id_kategori, tahun_terbit) VALUES ('$isbn', '$judul', '$penulis', '$kategori', '$tahun_terbit')");
+    // Mencari ID buku terbesar
+    $query_max_id = "SELECT MAX(CAST(id_buku AS UNSIGNED)) as max_id FROM buku";
+    $result_max_id = mysqli_query($koneksi, $query_max_id);
+    $row_max_id = mysqli_fetch_assoc($result_max_id);
 
-    if($query){
+    // Jika belum ada data, mulai dari 1, jika sudah ada, tambahkan 1
+    $next_id = ($row_max_id['max_id'] === null) ? 1 : $row_max_id['max_id'] + 1;
+
+    // Format ID menjadi 4 digit
+    $id_buku = str_pad($next_id, 4, '0', STR_PAD_LEFT);
+
+    // Query INSERT
+    $query = "INSERT INTO buku (id_buku, isbn, judul, penulis, id_kategori, tahun_terbit) 
+              VALUES ('$id_buku', '$isbn', '$judul', '$penulis', '$kategori', '$tahun_terbit')";
+
+    // Eksekusi query
+    if(mysqli_query($koneksi, $query)){
         echo "<script>alert('Data berhasil ditambahkan!'); window.location='data_buku.php';</script>";
     } else {
-        echo "<script>alert('Gagal menambahkan data.'); window.location='tambah_buku.php';</script>";
+        echo "<script>alert('Gagal menambahkan data: " . mysqli_error($koneksi) . "'); window.location='tambah_buku.php';</script>";
     }
 }
 ?>
@@ -51,7 +65,7 @@ if(isset($_POST['submit'])){
             <input type="number" class="form-control" id="tahun_terbit" name="tahun_terbit" required>
         </div>
         <button type="submit" name="submit" class="btn btn-primary">Tambah Buku</button>
-        <a href="data_buku.php" class="btn btn-secondary">Kembali</a>
+        <a href ="data_buku.php" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 

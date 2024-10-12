@@ -34,6 +34,7 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
                             <table class="table table-bordered table-striped"> 
                                 <tr>
                                     <th>No</th>
+                                    <th>ID Buku</th>
                                     <th>ISBN</th>
                                     <th>Judul</th>
                                     <th>Penulis</th>
@@ -58,17 +59,20 @@ if(isset($_GET['status']) && $_GET['status'] == 'success') {
                                 
                                 $no = 1;
                                 while ($ambil_data = mysqli_fetch_array($query)) {  
+                                    // Generate ID Buku otomatis dengan 4 angka
+                                    $id_buku = str_pad($ambil_data['id_buku'], 4, '0', STR_PAD_LEFT);
                                 ?>
                                 <tr>
                                     <td><?php echo $no++; ?></td>
+                                    <td><?php echo $id_buku; ?></td>
                                     <td><?php echo isset($ambil_data['isbn']) ? $ambil_data['isbn'] : 'N/A'; ?></td>
-                                    <td><?php echo isset($ambil_data['judul']) ? $ambil_data['judul'] : 'N/A'; ?></td>
+                                    <td><?php echo isset($ambil_data['judul']) ? $ambil_data['judul'] : 'N/A'; ?></ td>
                                     <td><?php echo isset($ambil_data['penulis']) ? $ambil_data['penulis'] : 'N/A'; ?></td>
                                     <td><?php echo isset($ambil_data['nama_kategori']) ? $ambil_data['nama_kategori'] : 'N/A'; ?></td>
                                     <td><?php echo isset($ambil_data['tahun_terbit']) ? $ambil_data['tahun_terbit'] : 'N/A'; ?></td>
                                     <td>
-                                        <a href="edit_buku.php?id=<?php echo $ambil_data['id_buku']; ?>" class="btn btn-warning">Edit</a>
-                                        <a href="hapus_buku.php?id=<?php echo $ambil_data['id_buku']; ?>" class="btn btn-danger">Hapus</a>
+                                        <a href="edit_buku.php?id=<?php echo $ambil_data['id_buku']; ?>" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="hapus_buku.php?id=<?php echo $ambil_data['id_buku']; ?>" class="btn btn-sm btn-danger">Hapus</a>
                                     </td>
                                 </tr>
                                 <?php } ?>
