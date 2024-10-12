@@ -93,6 +93,7 @@ function removeAlert() {
 // Jalankan fungsi setelah 3 detik
 setTimeout(removeAlert, 1000);
 </script>
+
 <?php
     include "footer.html";
 ?>
