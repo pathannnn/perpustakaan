@@ -68,8 +68,8 @@ $result = mysqli_query($koneksi, $query);
                                 echo "<td>".$row['nama_lengkap']."</td>";
                                 echo "<td>".$row['username']."</td>";
                                 echo "<td>
-                                        <a href='edit_admin.php?id=".$row['id_admin']."' class='btn btn-warning btn-sm'>Edit</a>
-                                        <a href='hapus_admin.php?id=".$row['id_admin']."' class='btn btn-danger btn-sm'>Hapus</a>
+                                        <a href='edit_admin.php?id_admin=".$row['id_admin']."' class='btn btn-warning btn-sm'>Edit</a>
+                                        <a href='hapus_admin.php?id_admin=' onclick='konfirmasiHapus(".$row['id_admin'].")' class='btn btn-danger btn-sm'>Hapus</a>
                                       </td>";
                                 echo "</tr>";
                             }
@@ -81,6 +81,14 @@ $result = mysqli_query($koneksi, $query);
         </div>
     </div>
 </div>
+
+<script>
+function konfirmasiHapus(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus admin ini?")) {
+        window.location.href = 'hapus_admin.php?id_admin=' + id;
+    }
+}
+</script>
 
 <?php
 include "footer.html";
