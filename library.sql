@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2024 at 05:07 PM
+-- Generation Time: Oct 12, 2024 at 06:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,8 +63,10 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id_buku`, `isbn`, `judul`, `penulis`, `id_kategori`, `tahun_terbit`) VALUES
-('', '35325452', 'Laskar Pelangi', 'Andrea Hira', 4, '2005'),
-('N-001', '5424535', 'Bumi Manusia', 'Pramoedya A', 1, '1999');
+('', '2432434', 'Bumi dan Langit', 'Fatih Masru', 4, '2025'),
+('0001', '4643565', 'Senja', 'Mas Rukhan', 1, '2020'),
+('N-001', '5424535', 'Bumi Manusia', 'Pramoedya A', 1, '1999'),
+('N-002', '35325452', 'Laskar Pelangi', 'Andrea Hira', 4, '2005');
 
 -- --------------------------------------------------------
 
@@ -74,8 +76,7 @@ INSERT INTO `buku` (`id_buku`, `isbn`, `judul`, `penulis`, `id_kategori`, `tahun
 
 CREATE TABLE `detail_peminjaman` (
   `id_peminjaman` varchar(6) DEFAULT NULL,
-  `id_buku` varchar(5) DEFAULT NULL,
-  `jumlah_pinjam` int(11) DEFAULT NULL
+  `id_buku` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -106,13 +107,23 @@ INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
 --
 
 CREATE TABLE `peminjaman` (
-  `id_peminjaman` varchar(6) NOT NULL,
+  `id_peminjaman` int(6) NOT NULL,
   `nisn` varchar(20) DEFAULT NULL,
+  `id_buku` varchar(11) DEFAULT NULL,
   `tgl_pinjam` date DEFAULT NULL,
-  `tg_harus_kembali` date DEFAULT NULL,
+  `tgl_tempo` date DEFAULT NULL,
   `id_admin` int(11) DEFAULT NULL,
-  `status_pinjam` enum('Pinjam','Kembali') DEFAULT NULL
+  `status_pinjam` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `peminjaman`
+--
+
+INSERT INTO `peminjaman` (`id_peminjaman`, `nisn`, `id_buku`, `tgl_pinjam`, `tgl_tempo`, `id_admin`, `status_pinjam`) VALUES
+(1, '23534645', 'N-002', '2024-10-12', '2024-10-19', 3, 'Dipinjam'),
+(2, '2101381', 'N-001', '2024-01-10', '2024-01-20', 1, 'Dikembalikan'),
+(3, '2101381', 'N-001', '2024-10-10', '2024-10-20', 3, 'Dipinjam');
 
 -- --------------------------------------------------------
 
@@ -133,7 +144,7 @@ CREATE TABLE `penerbit` (
 --
 
 CREATE TABLE `pengadaan` (
-  `id_pengadaan` varchar(6) NOT NULL,
+  `id_pengadaan` int(6) NOT NULL,
   `tgl_pengadaan` date DEFAULT NULL,
   `id_buku` varchar(5) DEFAULT NULL,
   `asal_buku` varchar(100) DEFAULT NULL,
@@ -141,6 +152,13 @@ CREATE TABLE `pengadaan` (
   `keterangan` varchar(255) DEFAULT NULL,
   `id_admin` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `pengadaan`
+--
+
+INSERT INTO `pengadaan` (`id_pengadaan`, `tgl_pengadaan`, `id_buku`, `asal_buku`, `jumlah`, `keterangan`, `id_admin`) VALUES
+(4, '2024-10-10', '35353', 'Sumbangan', 5, 'donasi dari hamba Allah', 3);
 
 -- --------------------------------------------------------
 
@@ -180,9 +198,16 @@ CREATE TABLE `siswa` (
   `tempat_lahir` varchar(30) DEFAULT NULL,
   `tgl_lahir` date DEFAULT NULL,
   `alamat` varchar(255) DEFAULT NULL,
-  `no_hp` varchar(13) DEFAULT NULL,
-  `foto_siswa` varchar(100) DEFAULT NULL
+  `no_hp` varchar(13) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`nisn`, `nama_siswa`, `jkel`, `tempat_lahir`, `tgl_lahir`, `alamat`, `no_hp`) VALUES
+('2101381', 'Fatih Masrukhan', 'L', 'Pemalang', '2004-07-21', 'Menco, Jawa Tengah', '085157585841'),
+('23534645', 'Masrukhan', 'L', 'Solo', '2000-04-11', 'Solo', '0861834647129');
 
 -- --------------------------------------------------------
 
@@ -277,10 +302,22 @@ ALTER TABLE `kategori`
   MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `peminjaman`
+--
+ALTER TABLE `peminjaman`
+  MODIFY `id_peminjaman` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `penerbit`
 --
 ALTER TABLE `penerbit`
   MODIFY `id_penerbit` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pengadaan`
+--
+ALTER TABLE `pengadaan`
+  MODIFY `id_pengadaan` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `penulis`
